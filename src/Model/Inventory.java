@@ -32,7 +32,7 @@ public class Inventory {
             }
         }
         
-        return null;
+        return null ;
     }
     
     public static void updateProduct(int productID, Product updatedProduct) {
