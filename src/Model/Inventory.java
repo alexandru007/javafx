@@ -32,7 +32,7 @@ public class Inventory {
             }
         }
         
-        return null ;
+        return null;
     }
     
     public static void updateProduct(int productID, Product updatedProduct) {
@@ -87,5 +87,10 @@ public class Inventory {
     // all parts
     public static ArrayList<Part> getAllParts() {
         return Parts;
+    }
+    
+    // all parts
+    public static ArrayList<Product> getAllProducts() {
+        return Products;
     }
 }
