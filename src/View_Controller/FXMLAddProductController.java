@@ -11,6 +11,8 @@ import Model.Part;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,14 +20,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 
 public class FXMLAddProductController implements Initializable {
 
+    Product product = new Product();
+    
+    // buttons
+    @FXML private Button saveButton;
+    
+    
     // add product, left side
     @FXML private TextField nameTextField;
     @FXML private TextField inventoryTextField;
@@ -42,17 +52,64 @@ public class FXMLAddProductController implements Initializable {
     @FXML private TableColumn<Part, Double> pricePerUnitColumn;
     @FXML private TextField searchPartTextField;
     
+    // associated parts table view bottom portion
+    @FXML private TableView<Part> tableViewAssotiatedParts;
+    @FXML private TableColumn<Part, Integer> associatedPartIDColumn;
+    @FXML private TableColumn<Part, String> associatedPartNameColumn;
+    @FXML private TableColumn<Part, Integer> associatedInventoryLevelColumn; 
+    @FXML private TableColumn<Part, Double> associatedPricePerUnitColumn;
+    
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        loadPartsTableView();
     }
     
-    
-    public void addProduct() {
+    // populate the parts table view with all available parts
+    public void loadPartsTableView() {
         
-        Product product = new Product();
+        partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        inventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        pricePerUnitColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
+        tableViewParts.setItems(getParts());
+        
+    }
+    
+    public void loadAssotiatedPartsTableView() {
+        
+        associatedPartIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        associatedPartNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        associatedInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        associatedPricePerUnitColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
+        tableViewAssotiatedParts.setItems(getAssociatedParts());
+    }
+    
+    public ObservableList<Part> getParts() {
+        
+        ObservableList<Part> inventoryParts = FXCollections.observableArrayList(Inventory.getAllParts());
+        return inventoryParts;
+    }
+    
+    public ObservableList<Part> getAssociatedParts() {
+        
+        ObservableList<Part> parts = FXCollections.observableArrayList(product.getAssociatedPars());
+        return parts;
+    }
+    
+    public boolean saveProduct() {
+        
+        // check if the fields are empty
+        if (nameTextField.getText().equals("") || inventoryTextField.getText().equals("") ||
+            priceTextField.getText().equals("") || maxTextField.getText().equals("") || minTextField.getText().equals("")) {
+                return false;
+        }
+
+        //Product product = new Product();
         product.setProductID(productIDCounter++);
         product.setName(nameTextField.getText());
         product.setInStock(Integer.parseInt(inventoryTextField.getText()));
@@ -61,21 +118,45 @@ public class FXMLAddProductController implements Initializable {
         product.setMin(Integer.parseInt(minTextField.getText()));
         
         //TO DO
-        // add associated parts
+        // check if the product has any associated parts
+        if (product.getAssociatedPars().size() == 0)
+            return false;
         
         Inventory.addProduct(product);
+        
+        return true;
     }
     
-    public void LoadMainSceneWithUpdatedPart (ActionEvent event) throws IOException {
+    public void addPartToProductTableView() {
+        
+        // check if there is anything selected
+        Part part = tableViewParts.getSelectionModel().getSelectedItem();
+        
+        if (part == null){
+            return;
+        }
+        
+        // add the associated part to product
+        // populate the associated parts table view
+        product.addAssociatedPart(part);
+        loadAssotiatedPartsTableView();
+    }
+    
+    public void LoadMainScene(ActionEvent event) throws IOException {
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View_Controller/FXMLMain.fxml"));
         Parent root = loader.load();        
         Scene scene = new Scene(root);
         
-        // populate the array inventory
-        addProduct();
-        
+        // if the save button is clicked populate the array inventory
+        if( ((Button)event.getSource()).getText().equals("save")){
+            
+            if (!saveProduct()){
+                return;
+            }
+        }
+            
         FXMLDocumentControllerMain mainController = loader.getController();
         mainController.loadPartsTableView();
         mainController.loadProductsTableView();
@@ -84,5 +165,4 @@ public class FXMLAddProductController implements Initializable {
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();  
         stage.setScene(scene);
     }
-    
 }

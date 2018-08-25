@@ -53,7 +53,7 @@
       </TableView>
       <Button layoutX="803.0" layoutY="313.0" mnemonicParsing="false" onAction="#AddProductScene" prefHeight="25.0" prefWidth="70.0" text="Add" />
       <Button layoutX="902.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Modify" />
-      <Button layoutX="984.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Delete" />
+      <Button layoutX="984.0" layoutY="313.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="70.0" text="Delete" />
       <Button fx:id="ButtonExit" layoutX="984.0" layoutY="399.0" mnemonicParsing="false" onAction="#ExitAction" prefHeight="25.0" prefWidth="70.0" text="Exit" />
    </children>
 </AnchorPane>

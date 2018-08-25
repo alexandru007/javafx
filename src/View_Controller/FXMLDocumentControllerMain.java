@@ -161,6 +161,23 @@ public class FXMLDocumentControllerMain implements Initializable {
         
     }
     
+    public void deleteProduct() {
+        
+        // if no row is selected in table view, the return value is null
+        Product product = tableViewProducts.getSelectionModel().getSelectedItem();
+        
+        if (product == null) {
+            return;
+        }
+        
+        // remove the part from the Inventory
+        Inventory.removeProduct(product);
+        
+        // reload the table view again
+        loadProductsTableView();
+        
+    }
+    
     @FXML
     public void searchPart() {
         // search for a part by ID and highlight it on the table view

@@ -12,7 +12,6 @@ package Model;
 public class InHouse extends Part{
     
     int machineID;
-    // test
     
     public void setMachineID(int machineID){
         this.machineID = machineID;

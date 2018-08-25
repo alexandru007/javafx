@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Product {
     
-    ArrayList<Part> associatedParts;
+    ArrayList<Part> associatedParts = new ArrayList<>();
     int productID;
     String name;
     double price;
@@ -95,5 +95,9 @@ public class Product {
     
     public int getProductID() {
         return productID;
+    }
+    
+    public ArrayList<Part> getAssociatedPars() {
+        return associatedParts;
     }
 }
