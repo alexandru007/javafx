@@ -119,7 +119,7 @@ public class FXMLAddProductController implements Initializable {
         
         //TO DO
         // check if the product has any associated parts
-        if (product.getAssociatedPars().size() == 0)
+        if (product.getAssociatedPars().isEmpty())
             return false;
         
         Inventory.addProduct(product);
@@ -139,6 +139,20 @@ public class FXMLAddProductController implements Initializable {
         // add the associated part to product
         // populate the associated parts table view
         product.addAssociatedPart(part);
+        loadAssotiatedPartsTableView();
+    }
+    
+    public void removePartFromAssociatedPartstableView() {
+        
+        Part part = tableViewAssotiatedParts.getSelectionModel().getSelectedItem();
+        
+        if (part == null){
+            return;
+        }
+        
+        product.removeAssociatedPart(part.getPartID());
+        
+        // reload the tableview
         loadAssotiatedPartsTableView();
     }
     

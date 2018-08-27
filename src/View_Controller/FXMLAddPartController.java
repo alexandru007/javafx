@@ -80,6 +80,13 @@ public class FXMLAddPartController implements Initializable {
     // add a new part
     public void addNewPart() {
         
+        // check if the fields are empty
+        if (nameTextField.getText().equals("") || inventoryTextField.getText().equals("") ||
+            priceTextField.getText().equals("") ||  maxTextField.getText().equals("") || 
+            minTextField.getText().equals("")){
+            return;
+        }
+        
         if (outSourcedCheckBox.isSelected()) {
             
             Outsourced outsourcedPart = new Outsourced();

@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.FXMLAddProductController">
    <children>
-      <Label layoutX="27.0" layoutY="39.0" prefHeight="17.0" prefWidth="84.0" text="Add Product">
+      <Label layoutX="27.0" layoutY="39.0" prefHeight="17.0" prefWidth="111.0" text="Modify Product">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -71,7 +71,7 @@
          </columns>
       </TableView>
       <Button layoutX="827.0" layoutY="330.0" mnemonicParsing="false" onAction="#LoadMainScene" text="cancel" />
-      <Button layoutX="759.0" layoutY="330.0" mnemonicParsing="false" onAction="#removePartFromAssociatedPartstableView" text="delete" />
+      <Button layoutX="759.0" layoutY="330.0" mnemonicParsing="false" text="delete" />
       <Button fx:id="saveButton" layoutX="695.0" layoutY="330.0" mnemonicParsing="false" onAction="#LoadMainScene" prefHeight="25.0" prefWidth="49.0" text="save" />
    </children>
 </AnchorPane>
