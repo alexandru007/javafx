@@ -18,6 +18,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -86,7 +89,7 @@ public class FXMLAddPartController implements Initializable {
             minTextField.getText().equals("")){
             return;
         }
-        
+
         if (outSourcedCheckBox.isSelected()) {
             
             Outsourced outsourcedPart = new Outsourced();
@@ -114,11 +117,33 @@ public class FXMLAddPartController implements Initializable {
 
             Inventory.addPart(inHousePart);
         }
-        
-        
     }
     
+    public void dialogBoxAlert(String alertText) {
+        
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setContentText(alertText);
+        alert.showAndWait();
+    }
+    
+    public boolean dialogBoxConfirmation(String alertText) {
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION, alertText, ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    // cancel button
     public void LoadMainScene (ActionEvent event) throws IOException {
+        
+        if (!dialogBoxConfirmation("Are you sure you want to cancel?"))
+            return;
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View_Controller/FXMLMain.fxml"));
@@ -134,12 +159,37 @@ public class FXMLAddPartController implements Initializable {
         stage.setScene(scene);
     }
     
+    // save button
     public void LoadMainSceneWithUpdatedPart (ActionEvent event) throws IOException {
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View_Controller/FXMLMain.fxml"));
         Parent root = loader.load();        
         Scene scene = new Scene(root);
+        
+        
+        // if inventory is not int he min max range
+        int inventory = Integer.parseInt(inventoryTextField.getText());
+        int max = Integer.parseInt(maxTextField.getText());
+        int min = Integer.parseInt(minTextField.getText());
+        
+        if (inventory < min || inventory > max) {
+            
+            dialogBoxAlert("Inventory must be between the minimum or maximum value!");
+            return;
+        }
+        
+        if (max <= min) {
+            
+            dialogBoxAlert("Maximum must have a value greater than minimum!");
+            return;
+        }
+        
+        if (min > max ) {
+            
+            dialogBoxAlert("Minimum must have a value less than maximum");
+            return;
+        }
         
         // populate the array inventory
         addNewPart();

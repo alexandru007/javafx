@@ -19,6 +19,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -127,6 +129,9 @@ public class FXMLModifyPartController implements Initializable {
     
     public void LoadMainSceneWithUpdatedPart (ActionEvent event) throws IOException {
         
+        if(!dialogBoxConfirmation("Are you sure you want to cancel?"))
+            return;
+        
         // before loading the main window, update the part that was recieved
         modifyPart();
         
@@ -142,5 +147,17 @@ public class FXMLModifyPartController implements Initializable {
         // get the hold of the stage (window of the button) 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();  
         stage.setScene(scene);
+    }
+    
+    public boolean dialogBoxConfirmation(String alertText) {
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, alertText, ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            return true;
+        }
+        
+        return false;
     }
 }

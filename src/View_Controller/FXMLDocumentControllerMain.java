@@ -21,7 +21,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -143,6 +145,29 @@ public class FXMLDocumentControllerMain implements Initializable {
         stage.setScene(scene);
     }
     
+    public void ModifyProductScene (ActionEvent event) throws IOException {
+        
+        // if no row is selected in table view, the return value is null
+        Product product = tableViewProducts.getSelectionModel().getSelectedItem();
+        
+        if (product == null) {
+            return;
+        }
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/FXMLModifyProduct.fxml"));
+        Parent root = loader.load();        
+        Scene scene = new Scene(root);
+        
+        // populate the array inventory
+        FXMLModifyProductController modifyController = loader.getController();
+        modifyController.initData(product); // sent the part to modify screen
+        
+        // get the hold of the stage (window of the button) 
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();  
+        stage.setScene(scene);
+    }
+    
     @FXML
     public void deletePart() {
         
@@ -152,6 +177,10 @@ public class FXMLDocumentControllerMain implements Initializable {
         if (part == null) {
             return;
         }
+        
+        // ask for confirmation
+        if(!dialogBoxConfirmation("delete the part?"))
+            return;
         
         // remove the part from the Inventory
         Inventory.deletePart(part);
@@ -170,12 +199,20 @@ public class FXMLDocumentControllerMain implements Initializable {
             return;
         }
         
+        // ask for confirmation
+        if(!dialogBoxConfirmation("delete the product?"))
+            return;
+        
+        if (product.getAssociatedPars().size() > 0){
+            // cannot delete the product
+            dialogBoxAlert("Product that has at least one part cannot be deleted");
+            return;
+        }
         // remove the part from the Inventory
         Inventory.removeProduct(product);
         
         // reload the table view again
         loadProductsTableView();
-        
     }
     
     @FXML
@@ -202,5 +239,50 @@ public class FXMLDocumentControllerMain implements Initializable {
         catch(Exception e){
             System.out.println(e.toString());
         }
+    }
+    
+    public void searchProduct() {
+        // search for a product by ID and highlight it on the table view
+        // read data from search field
+        int searchID;
+        try{
+            searchID = Integer.parseInt(searchProductTextField.getText());
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return;
+        }
+        
+        Product product;
+        try{
+            product = Inventory.lookupProduct(searchID);
+            
+            if (product != null)
+                tableViewProducts.getSelectionModel().select(product);
+            return;
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
+    }
+    
+    public boolean dialogBoxConfirmation(String alertText) {
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You sure you want to " + alertText, ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public void dialogBoxAlert(String alertText) {
+        
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setContentText(alertText);
+        alert.showAndWait();
     }
 }

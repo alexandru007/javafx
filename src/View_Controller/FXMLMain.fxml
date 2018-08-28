@@ -23,7 +23,7 @@
          </font>
       </Label>
       <Button layoutX="189.0" layoutY="118.0" mnemonicParsing="false" onAction="#searchPart" text="Search" />
-      <TextField fx:id="searchTextField" layoutX="241.0" layoutY="118.0" />
+      <TextField fx:id="searchPartTextField" layoutX="241.0" layoutY="118.0" />
       <TableView fx:id="tableViewParts" layoutX="34.0" layoutY="170.0" prefHeight="127.0" prefWidth="451.0">
         <columns>
           <TableColumn fx:id="partIDColumn" prefWidth="75.0" text="Part ID" />
@@ -41,8 +41,8 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Button layoutX="803.0" layoutY="118.0" mnemonicParsing="false" text="Search" />
-      <TextField layoutX="855.0" layoutY="118.0" />
+      <Button layoutX="803.0" layoutY="118.0" mnemonicParsing="false" onAction="#searchProduct" text="Search" />
+      <TextField fx:id="searchProductTextField" layoutX="855.0" layoutY="118.0" />
       <TableView fx:id="tableViewProducts" layoutX="603.0" layoutY="170.0" prefHeight="127.0" prefWidth="451.0">
          <columns>
             <TableColumn fx:id="productIDColumn" prefWidth="75.0" text="Product ID" />
@@ -52,7 +52,7 @@
          </columns>
       </TableView>
       <Button layoutX="803.0" layoutY="313.0" mnemonicParsing="false" onAction="#AddProductScene" prefHeight="25.0" prefWidth="70.0" text="Add" />
-      <Button layoutX="902.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Modify" />
+      <Button layoutX="902.0" layoutY="313.0" mnemonicParsing="false" onAction="#ModifyProductScene" prefHeight="25.0" prefWidth="70.0" text="Modify" />
       <Button layoutX="984.0" layoutY="313.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="70.0" text="Delete" />
       <Button fx:id="ButtonExit" layoutX="984.0" layoutY="399.0" mnemonicParsing="false" onAction="#ExitAction" prefHeight="25.0" prefWidth="70.0" text="Exit" />
    </children>

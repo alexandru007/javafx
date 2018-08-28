@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.FXMLAddProductController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.FXMLModifyProductController">
    <children>
       <Label layoutX="27.0" layoutY="39.0" prefHeight="17.0" prefWidth="111.0" text="Modify Product">
          <font>
@@ -20,7 +20,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField editable="false" layoutX="83.0" layoutY="89.0" prefHeight="25.0" prefWidth="84.0" promptText="auto gen - disable" />
+      <TextField fx:id="productID" disable="true" editable="false" layoutX="83.0" layoutY="89.0" prefHeight="25.0" prefWidth="84.0" promptText="auto gen - disable" />
       <Label layoutX="27.0" layoutY="129.0" prefHeight="17.0" prefWidth="43.0" text="Name">
          <font>
             <Font name="System Bold" size="12.0" />
@@ -51,7 +51,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="454.0" layoutY="35.0" mnemonicParsing="false" text="Search" />
+      <Button layoutX="454.0" layoutY="35.0" mnemonicParsing="false" onAction="#searchPart" text="Search" />
       <TextField fx:id="searchPartTextField" layoutX="506.0" layoutY="35.0" prefHeight="25.0" prefWidth="189.0" />
       <TableView fx:id="tableViewParts" layoutX="454.0" layoutY="67.0" prefHeight="108.0" prefWidth="423.0">
         <columns>
@@ -71,7 +71,7 @@
          </columns>
       </TableView>
       <Button layoutX="827.0" layoutY="330.0" mnemonicParsing="false" onAction="#LoadMainScene" text="cancel" />
-      <Button layoutX="759.0" layoutY="330.0" mnemonicParsing="false" text="delete" />
+      <Button layoutX="759.0" layoutY="330.0" mnemonicParsing="false" onAction="#removePartFromAssociatedPartstableView" text="delete" />
       <Button fx:id="saveButton" layoutX="695.0" layoutY="330.0" mnemonicParsing="false" onAction="#LoadMainScene" prefHeight="25.0" prefWidth="49.0" text="save" />
    </children>
 </AnchorPane>

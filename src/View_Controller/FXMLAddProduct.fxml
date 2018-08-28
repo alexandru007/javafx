@@ -51,7 +51,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="454.0" layoutY="35.0" mnemonicParsing="false" text="Search" />
+      <Button layoutX="454.0" layoutY="35.0" mnemonicParsing="false" onAction="#searchPart" text="Search" />
       <TextField fx:id="searchPartTextField" layoutX="506.0" layoutY="35.0" prefHeight="25.0" prefWidth="189.0" />
       <TableView fx:id="tableViewParts" layoutX="454.0" layoutY="67.0" prefHeight="108.0" prefWidth="423.0">
         <columns>
